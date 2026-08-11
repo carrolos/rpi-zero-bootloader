@@ -1,0 +1,3 @@
+[submodule "pi-side/lib"]
+	path = pi-side/lib
+	url = git@github.com:carrolos/rpi-zero-lib
