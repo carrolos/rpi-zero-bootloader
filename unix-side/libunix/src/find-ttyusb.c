@@ -1,4 +1,4 @@
-// inspired by Engler, cs140e
+// inspired by engler, cs140e
 #include <sys/stat.h>
 #include <dirent.h>
 static const char *ttyusb_prefixes[] = {
@@ -16,7 +16,7 @@ static const char *ttyusb_prefixes[] = {
 static const char* dev_prefix = "/dev/";
 static const uint32_t MAX_LEN = 128;
 
-// scan through the prefixes; returns 1 when you a match is found,
+// scan through the prefixes; returns 1 when a match is found,
 // 0 if there is no match.
 // MAYBE: will looking through only the prefixes based on the OS
 // improve performance?
@@ -64,10 +64,7 @@ static int compar_last(const struct dirent **a, const struct dirent **b)
         return 1;
 }
 
-// returns the most recently mounted ttyusb (the one
-// mounted last).  uses the modification time 
-// returned by stat()
-char *find_ttyusb_last(void)
+static char* find_ttyusb_helper(int last)
 {
     struct dirent ** namelist = NULL;
     const int n_entries = scandir(dev_prefix, &namelist, &filter, &compar_last);
@@ -75,10 +72,21 @@ char *find_ttyusb_last(void)
         sys_die(scandir, "scandir failed!", errno);
     else if (!(n_entries))
         // let the caller handle
-        return "";
-    else
+        return strdup("");
+    else if (last)
         // get first entry since last is first, by `compar_last()`
         return strdup(namelist[0]->d_name);
+    else
+        // get last entry since last is first, by `compar_last()`
+        return strdup(namelist[n_entries - 1]->d_name);
+}
+
+// returns the most recently mounted ttyusb (the one
+// mounted last).  uses the modification time 
+// returned by stat()
+char *find_ttyusb_last(void)
+{
+    return find_ttyusb_helper(1);
 }
 
 // returns the oldest mounted ttyusb (the one mounted
@@ -86,14 +94,5 @@ char *find_ttyusb_last(void)
 // stat()
 char *find_ttyusb_first(void)
 {
-    struct dirent ** namelist = NULL;
-    const int n_entries = scandir(dev_prefix, &namelist, &filter, &compar_last);
-    if (n_entries == -1)
-        sys_die(scandir, "scandir failed!", errno);
-    else if (!(n_entries))
-        // let the caller handle
-        return "";
-    else
-        // get last entry since last is first, by `compar_last()`
-        return strdup(namelist[n_entries - 1]->d_name);
+    return find_ttyusb_helper(0);
 }
