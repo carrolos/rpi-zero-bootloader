@@ -1,7 +1,5 @@
 // inspired by engler, cs140e, with modifications
 
-#include <assert.h>
-
 #include "libunix.h"
 
 // sets the tty port to 8n1 mode with Baudrate <speed>; times out after

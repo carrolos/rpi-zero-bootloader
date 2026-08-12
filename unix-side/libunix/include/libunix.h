@@ -1,6 +1,7 @@
 #ifndef __LIBUNIX_H__
 #define __LIBUNIX_H__
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
@@ -30,6 +31,10 @@ int open_tty(const char *device);
 // sets a tty port to the 8n1 protocol
 // panics if is unable to do so
 void set_tty_to_8n1(int fd, uint32_t speed, double timeout);
+
+// writes exactly n bytes; panics if `write` itself fails
+// or write less than n bytes
+int write_exact(int fd, const void *data, uint32_t n);
 
 #include "demand.h"
 

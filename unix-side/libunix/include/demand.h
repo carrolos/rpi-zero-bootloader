@@ -75,7 +75,7 @@
 
 // die with a panic message
 #define panic(msg...) do {                                          \
-        output("%s:%s:%d:PANIC", __FILE__, __FUNCTION__, __LINE__); \
+        output("%s:%s:%d:PANIC: ", __FILE__, __FUNCTION__, __LINE__); \
         die(msg);                                                   \
     } while(0)
 
