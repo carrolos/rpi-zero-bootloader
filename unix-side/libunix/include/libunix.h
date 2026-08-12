@@ -5,7 +5,10 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
+// used by open-tty.c
 #include <unistd.h>
+// used by rpz-install.c and set-tty-8n1.c
+#include <termios.h>
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
@@ -24,6 +27,9 @@ char *find_ttyusb_last(void);
 // panics if is unable to do so
 int open_tty(const char *device);
 
+// sets a tty port to the 8n1 protocol
+// panics if is unable to do so
+void set_tty_to_8n1(int fd, uint32_t speed, double timeout);
 
 #include "demand.h"
 

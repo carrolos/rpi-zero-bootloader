@@ -19,8 +19,8 @@ static int open_tty_n(const char *device, int maxattempts)
             output("opened tty port <%s>\n", device);
             return fd;
         }
-            output("couldn't open tty port <%s>, going to sleep\n", device);
-            sleep(1);
+        output("couldn't open tty port <%s>, going to sleep\n", device);
+        sleep(1);
     }
     panic("couldn't open tty port <%s>!\n", device);
 }
