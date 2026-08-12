@@ -58,7 +58,7 @@ DFLAGS := -MMD -MP $(INC)
 #  	enabled by `Wall`
 # -Werror: make all warnings into errors
 # -std: specify C standard
-CFLAGS := -O -Wall -Wno-unused-variable -Werror \
+CFLAGS := -g -Wall -Wno-unused-variable -Werror \
 			 -std=gnu99 $(DFLAGS)
 
 # make all programs

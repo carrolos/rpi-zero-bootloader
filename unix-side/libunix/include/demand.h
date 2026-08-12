@@ -23,11 +23,10 @@
 #define trace(msg...) do { output("TRACE:"); output(msg); } while(0)
 
 // if you pass -DNDEBUG to the compiler, these are optimized away
-#ifndef NDEBUG
+#ifdef NDEBUG
 #   define demand(_expr, _msg, args...) do { } while(0)
 #   define debug(msg...) do { } while(0)
 #else
-
 #   define demand(_expr, _msg, args...) do {                         \
         if (!(_expr)) {                                              \
             fprintf(stderr, "%s:%s:%d: Assertion '%s' failed:",      \

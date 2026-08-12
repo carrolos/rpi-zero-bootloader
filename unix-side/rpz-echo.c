@@ -3,17 +3,16 @@
 // of surrounding infrastructure
 
 #include <stdio.h>
-
 #include "libunix.h"
 
 int main(void)
 {
-    char* my_str = "affix";
-    output("str is %s\n", my_str);
-    output("prefix of str is af? %s\n", 
-        prefix_cmp(my_str, "af") ? "true" : "false");
-    output("suffix of str is fix? %s\n", 
-        suffix_cmp(my_str, "fix") ? "true" : "false");
+    printf("will call find_last; ");
+    char *last = find_ttyusb_last();
+    printf("last=<%s>\n", last);
+    printf("will call find_first; ");
+    char *first = find_ttyusb_first();
+    printf("first=<%s>\n", first);
 
     return 0;
 }
