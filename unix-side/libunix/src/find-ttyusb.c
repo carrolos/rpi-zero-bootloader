@@ -69,16 +69,24 @@ static char* find_ttyusb_helper(int last)
     struct dirent ** namelist = NULL;
     const int n_entries = scandir(dev_prefix, &namelist, &filter, &compar_last);
     if (n_entries == -1)
-        sys_die(scandir, "scandir failed!", errno);
+        sys_die(scandir, "scandir failed!\n");
     else if (!(n_entries))
         // let the caller handle
         return strdup("");
-    else if (last)
+
+    // assumes limits on length of device name
+    char* ret = malloc(MAX_LEN);
+    strcpy(ret, dev_prefix);
+    char* end = ret + strlen(dev_prefix);
+    if (last)
         // get first entry since last is first, by `compar_last()`
-        return strdup(namelist[0]->d_name);
+        strcpy(end, namelist[0]->d_name);
     else
         // get last entry since last is first, by `compar_last()`
-        return strdup(namelist[n_entries - 1]->d_name);
+        strcpy(end, namelist[n_entries - 1]->d_name);
+    debug("have device=<%s> with length=<%lu>; verify this\n",
+        ret, strlen(ret));
+    return ret;
 }
 
 // returns the most recently mounted ttyusb (the one
