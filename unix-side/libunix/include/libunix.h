@@ -7,4 +7,6 @@
 int suffix_cmp(const char *s, const char *suffix);
 int prefix_cmp(const char *s, const char *prefix);
 
+#include "demand.h"
+
 #endif

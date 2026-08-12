@@ -5,6 +5,7 @@
 *.elf
 *.bin
 *.list
+*.out
 kernel.img
 
 # misc

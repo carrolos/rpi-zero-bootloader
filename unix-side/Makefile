@@ -1,5 +1,5 @@
 # project source
-PROJ_SRC := rpz-install.c
+PROJ_SRC := rpz-install.c rpz-echo.c
 
 # sets objs as the default directory for objects and creates it if
 # it doesn't already exist

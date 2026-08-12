@@ -3,8 +3,16 @@
 
 #include <stdio.h>
 
+#include "libunix.h"
+
 int main(void)
 {
-    printf("hello, world!\n");
+    char* my_str = "affix";
+    printf("str is %s\n", my_str);
+    printf("prefix of str is af? %s\n", 
+        prefix_cmp(my_str, "af") ? "true" : "false");
+    printf("suffix of str is fix? %s\n", 
+        suffix_cmp(my_str, "fix") ? "true" : "false");
+
     return 0;
 }
