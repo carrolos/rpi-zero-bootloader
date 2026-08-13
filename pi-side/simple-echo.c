@@ -1,6 +1,8 @@
 #include "rpi.h"
 #include "echo-defs.h"
 
+#define US_DELAY 500000
+
 void notmain()
 {
 //    for (u8 i = 0; i < 10; i++)
@@ -14,6 +16,8 @@ void notmain()
     for (u32 i = 0; i < MAX_RETRIES; i++)
     {
         c = uart_get8();
+        // wait to let the OS machine catch up
+        delay_us(US_DELAY);
         // ceaser cipher
         uart_put8(c + 3);
 //        u8 c;

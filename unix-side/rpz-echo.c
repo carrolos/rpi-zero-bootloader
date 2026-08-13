@@ -45,7 +45,7 @@ int main(void)
     printf("found device <%s>; will now attempt to connect\n", dev_name);
     int tty = open_tty(dev_name);
     printf("connected! setting up baudrate, etc...\n");
-    double timeout_tenths = 2 * 5;
+    double timeout_tenths = 2 * 8;
     // Bx...s defined in termios.h, included in libunix.h
     uint32_t baud_rate = B115200;
     set_tty_to_8n1(tty, baud_rate, timeout_tenths);
@@ -54,11 +54,13 @@ int main(void)
     uint8_t c;
     for (uint32_t i = 0; i < MAX_RETRIES; i++)
     {
-        c = getchar();
+        read(STDIN_FILENO, &c, 1);
+        debug("got c=<%c> from stdin\n", c);
         put_uint8(tty, c);
+        debug("put c in pi?\n");
         c = get_uint8(tty);
         putchar(c);
-        putchar('\n');
+//        putchar('\n');
 //        uint8_t c_tx;
 //        uint8_t c_rx;
 //        while ((c_tx = getc(STDIN_FILENO)) != SPECIAL_CHAR)
