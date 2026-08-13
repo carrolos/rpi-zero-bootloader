@@ -5,26 +5,7 @@ static const char *ttyusb_prefixes[] = {
     "ttyUSB",	// linux
     "ttyACM",   // linux
     "cu.SLAB_USB", // mac os
-    "cu.usbserial", // mac os
-    // NOTE: below is special in the fact that `open()` blocks on these types
-    // of paths. reasoning:
-    // "The idea is to supplement software in sharing a line between incoming
-    // and outgoing calls. The callin device (typically /dev/tty*) is used
-    // for incoming traffic. Any process trying to open it blocks within the
-    // open() call as long as DCD is not asserted by hardware (i.e. as long
-    // as the modem doesn't have a carrier). During this, the callout device
-    // (typically /dev/cu* -- cu stands for "calling unit") can be freely
-    // used. Opening /dev/cu* doesn't require DCD to be asserted and succeeds
-    // immediately. Once succeeded, the blocked open() on the callin device
-    // will be suspended, and cannot even complete when DCD is raised, until
-    // the cu device is closed again.
-    // That way, you can have a getty listening on /dev/tty*, and can still
-    // use /dev/cu* without restrictions."
-    // source:
-    //   https://stackoverflow.com/questions/8632586/whats-the-difference-between-dev-tty-and-dev-cu-on-macos
-    // blocking can be avoided by using the O_NONBLOCK flag when opening; see
-    // note in open-tty.c for an example and more details
-    "tty.usbserial" //mac os
+    "cu.usbserial" // mac os
     // if your system uses another name, add it.
 };
 

@@ -1,7 +1,7 @@
 #include "rpi.h"
 #include "echo-defs.h"
 
-#define US_DELAY 500000
+#define US_DELAY 100000
 
 void notmain()
 {
