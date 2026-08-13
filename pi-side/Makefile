@@ -1,5 +1,5 @@
 # project source
-PROJ_SRC := geometric-blinky.c triangular-blinky.c
+PROJ_SRC := simple-echo.c
 
 # sets objs as the default directory for objects and creates it if
 # it doesn't already exist
@@ -11,7 +11,7 @@ LIB := lib
 
 # adds lib/include to the list of directories to search
 # through when resolving #include directives
-INC := -I$(LIB)/include -I$(LIB)/libc
+INC := -I$(LIB)/include -I$(LIB)/libc -I../shared
 
 START_SRC := $(LIB)/start.S
 START_OBJ := $(addprefix $(BUILD_DIR)/, $(patsubst %.S,%.o,$(START_SRC)))

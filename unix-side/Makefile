@@ -11,7 +11,7 @@ LIB := libunix
 
 # adds lib/include to the list of directories to search
 # through when resolving #include directives
-INC := -I$(LIB)/include
+INC := -I$(LIB)/include -I../shared
 
 # source files that each program depends on
 COMMON_SRC := $(wildcard $(LIB)/src/*.c)

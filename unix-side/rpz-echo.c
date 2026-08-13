@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "libunix.h"
+#include "echo-defs.h"
 
 void put_uint8(int fd, uint8_t b) { write_exact(fd, &b, 1); }
 
@@ -26,8 +27,7 @@ uint8_t get_uint8(int fd)
 int main(void)
 {
     char* dev_name;
-    uint32_t max_tries = 7;
-    for (uint32_t i = 0; i < max_tries; i++)
+    for (uint32_t i = 0; i < MAX_RETRIES; i++)
     {
         dev_name = find_ttyusb_last();
         if (dev_name[0] != '\0')
@@ -39,7 +39,7 @@ int main(void)
     if (dev_name[0] == '\0')
     {
         die("rpz-echo: couldn't find a device after %d tries; dying\n",
-            max_tries);
+            MAX_RETRIES);
     }
 
     printf("found device <%s>; will now attempt to connect\n", dev_name);
@@ -51,14 +51,23 @@ int main(void)
     set_tty_to_8n1(tty, baud_rate, timeout_tenths);
 
     printf("baudrate set up; will now communicate with pi!\n\n"); 
-    for (uint32_t i = 0; i < max_tries; i++)
+    uint8_t c;
+    for (uint32_t i = 0; i < MAX_RETRIES; i++)
     {
-        uint8_t c_tx;
-        uint8_t c_rx;
-        while ((c_tx = getc(STDIN_FILENO)) != '!')
-            put_uint8(tty, c_tx);
-        while ((c_rx = get_uint8(tty)) != '!')
-            putchar(c_rx);
+        c = getchar();
+        put_uint8(tty, c);
+        c = get_uint8(tty);
+        putchar(c);
+        putchar('\n');
+//        uint8_t c_tx;
+//        uint8_t c_rx;
+//        while ((c_tx = getc(STDIN_FILENO)) != SPECIAL_CHAR)
+//            put_uint8(tty, c_tx);
+//        // actually put the special char
+//        put_uint8(tty, c_tx);
+//        while ((c_rx = get_uint8(tty)) != SPECIAL_CHAR)
+//            putchar(c_rx);
+//        putchar('\n');
     }
     int e = close(tty);
     if (e == -1)
