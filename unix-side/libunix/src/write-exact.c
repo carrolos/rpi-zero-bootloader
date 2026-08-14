@@ -2,8 +2,8 @@
 
 #include "libunix.h"
 
-// returns number of bytes written; panics if failed or wrote less than n
-int write_exact(int fd, const void *data, uint32_t n)
+// dies if unsuccessful
+void write_exact(const int fd, const void *data, const uint32_t n)
 {
     assert(n);
 
@@ -12,5 +12,4 @@ int write_exact(int fd, const void *data, uint32_t n)
         sys_die(write, "write exact failed\n");
     if (got != n)
         panic("expected to write %d bytes, only wrote %d\n", n, got);
-    return n;
 }

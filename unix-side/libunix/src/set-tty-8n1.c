@@ -6,7 +6,7 @@
 // <timeout> seconds (note that units is seconds and type is float, so
 // <timeout> < 1 is OK)
 // panics if can't set the port to desired settings
-void set_tty_to_8n1(int fd, uint32_t speed, double timeout)
+void set_tty_to_8n1(const int fd, const uint32_t speed, const double timeout)
 {
     struct termios tty;
     memset(&tty, 0, sizeof tty);

@@ -13,6 +13,9 @@
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
+// roundup <x> to a multiple of <n>: taken from the lcc compiler, ripped
+// from engler, cs140e
+#define pi_roundup(x,n) (((x)+((n)-1))&(~((n)-1)))
 
 // return 1 if suffix/prefix are in s
 int suffix_cmp(const char *s, const char *suffix);
@@ -30,11 +33,23 @@ int open_tty(const char *device);
 
 // sets a tty port to the 8n1 protocol
 // panics if is unable to do so
-void set_tty_to_8n1(int fd, uint32_t speed, double timeout);
+void set_tty_to_8n1(const int fd, const uint32_t speed, const double timeout);
 
-// writes exactly n bytes; panics if `write` itself fails
-// or write less than n bytes
-int write_exact(int fd, const void *data, uint32_t n);
+// writes exactly n bytes; dies if `write()` itself fails and panics if writes
+// less than n bytes
+void write_exact(const int fd, const void *data, const uint32_t n);
+// reads exactly n bytes; dies if `read()` itself fails and panics if reads
+// less than n bytes
+void read_exact(const int fd, void *data, const uint32_t n);
+
+// reads file <name> into memory
+// returns:
+//  - pointer to the code; code is padded with 0s up to next multiple of 4
+// mutates:
+//  - number of bytes in <size>
+//
+// panics if can't read file
+void *read_file(uint32_t *size, const char *name);
 
 #include "demand.h"
 
