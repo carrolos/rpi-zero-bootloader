@@ -33,7 +33,6 @@ void put_uint8(int fd, uint8_t b) { write_exact(fd, &b, 1); }
 
 uint8_t get_uint8(int fd)
 {
-//    fprintf(stderr, "in get_uint8; about to read from fd\n");
     uint8_t b;
 
     int res;
@@ -77,14 +76,14 @@ int main(void)
     }
 
     // setup the device
-    printf("found device <%s>; will now attempt to connect\n", dev_name);
+    debug("found device <%s>; will now attempt to connect\n", dev_name);
     const int tty = open_tty(dev_name);
-    printf("connected! setting up baudrate, etc., on tty device\n");
+    debug("connected! setting up baudrate, etc., on tty device\n");
     const double timeout_tenths = 2 * 8;
     // Bx...s defined in termios.h, included in libunix.h
     const uint32_t baud_rate = B115200;
     set_tty_to_8n1(tty, baud_rate, timeout_tenths);
-    printf("tty set up; setting up terminal to communicate with pi\n"); 
+    debug("tty set up; setting up terminal to communicate with pi\n"); 
 
     // tell the kernel that we'll handle these signals
     signal(SIGINT, restore_terminal);
@@ -99,7 +98,7 @@ int main(void)
         // notice that we haven't changed anything, so no teardown
         panic("failed to change stdin settings!\n");
 
-    printf("set up complete. ready for a char to send to pi: \n");
+    debug("set up complete. ready for a char to send to pi: \n");
     uint8_t c;
     for (uint32_t i = 0; i < MAX_RETRIES; i++)
     {
@@ -122,7 +121,7 @@ int main(void)
 //        putchar('\n');
     }
 
-    printf("program done; cleaning up\n");
+    debug("program done; cleaning up\n");
 
     if (close(tty) == -1)
         die("couldn't properly close tty!\n");

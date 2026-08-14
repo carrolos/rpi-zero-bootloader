@@ -93,7 +93,7 @@ int main(void)
     // run cleanup when we exit, either via exit() or returning from main
     atexit(cleanup);
 
-    // set stdin to raw mode
+    // set stdin to raw mode and turn off echo
     struct termios modified = original;
     modified.c_lflag &= ~(ICANON | ECHO);
     if (tcsetattr(STDIN_FILENO, TCSANOW, &modified) != 0)
