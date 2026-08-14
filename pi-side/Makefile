@@ -1,5 +1,5 @@
 # project source
-PROJ_SRC := simple-echo.c
+PROJ_SRC := simple-echo.c char-echo.c
 
 # sets objs as the default directory for objects and creates it if
 # it doesn't already exist

@@ -3,5 +3,6 @@
 
 #define MAX_RETRIES 7
 #define SPECIAL_CHAR '!'
+#define RESTORE_RETRIES 3
 
 #endif
