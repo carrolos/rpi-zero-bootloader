@@ -1,6 +1,10 @@
 # project source
 PROJ_SRC := rpz-install.c rpz-echo.c rpz-char-echo.c
 
+TESTS_DIR := tests
+
+PROJ_SRC += $(wildcard $(TESTS_DIR)/*.c)
+
 # sets objs as the default directory for objects and creates it if
 # it doesn't already exist
 BUILD_DIR ?= objs
@@ -80,6 +84,8 @@ $(BUILD_DIR)/%.o: %.c
 clean:
 	rm -rf $(BUILD_DIR)
 
+archive: $(ARCHIVE)
+
 # tell the Make program that the specified targets aren't real files,
 # so to not look for timestamps on them
-.PHONY: all clean
+.PHONY: all clean archive

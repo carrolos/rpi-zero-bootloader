@@ -51,6 +51,10 @@ void read_exact(const int fd, void *data, const uint32_t n);
 // panics if can't read file
 void *read_file(uint32_t *size, const char *name);
 
+// creates the file and returns the file descriptor
+// dies if `open()` fails
+int create_file(const char *name);
+
 #include "demand.h"
 
 #endif
