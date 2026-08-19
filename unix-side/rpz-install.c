@@ -19,12 +19,29 @@ static struct option long_options[] =
     {NULL,        0,                 NULL,      0 }
 };
 
-// MUST TODO: add a usage function that prints how to use the bootloader
+static char *this_prog;
 
+// MUST TODO: add a usage function that prints how to use the bootloader
+static void usage()
+{
+    output("\nusage: %s [(-b | --baud_rate) <baud>] [(-l | --last) | (-f | "
+        "--first) | (-d | --device) </path/to/device>] [-v | --verbose] "
+        "<pi_program>\n",
+        this_prog);
+}
+
+
+// returns true if baud is valid; false otherwise
+// a valid baud rate is one that is defined in termios.h
+static bool check_baud(uint32_t b)
+{
+    unimplemented();
+    return false;
+}
 
 int main(int argc, char ** argv)
 {
-    char * this_prog = argv[0];
+    this_prog = argv[0];
     uint32_t baud = B115200;
     char * dev_name = "";
     char * pi_prog = "";
@@ -40,14 +57,21 @@ int main(int argc, char ** argv)
             break;
         switch (c)
         {
-            // TODO: handle more than one non-opt arg; can only bootload one
-            // prog!!
             case 1:
-                printf("got prog <%s>\n", optarg);
-                pi_prog = optarg;
+                if (pi_prog[0] == '\0')
+                {
+                    pi_prog = optarg;
+                }
+                else
+                {
+                    printf("too many non-option pi programs; bootloader takes"
+                        " only one pi program\n");
+                    usage();
+                }
                 break;
             // TODO: parse baud rate; only allow those defined in termios.h
             case 'b':
+                check_baud(atoi(optarg));
                 printf("changing baud rate to <%s>\n", optarg);
                 break;
             case 'l':
@@ -64,11 +88,13 @@ int main(int argc, char ** argv)
             // enough to not cause problems, however
             case 'v':
                 f_verbose = 1;
+                break;
             case '?':
                 fprintf(stderr, "Unknown option <%c>\n", optopt);
                 break;
             case ':':
                 fprintf(stderr, "Missing argument for option <%c>\n", optopt);
+                usage();
                 break;
             default:
                 fprintf(stderr, "??? getopt returned character code <%c>\n",
