@@ -153,11 +153,14 @@ int main(int argc, char ** argv)
         exit(0);
     }
 
-    // default behavior uses the device most recently plugged in
-    // assumes no options been provided; at this point, ok for dev_name
-    // to be empty
+    // shouldn't be empty at this point
+    if (pi_prog[0] == '\0')
+    {
+        panic("Did not receive a pi program to bootload; exactly one is required");
+        usage();
+    }
     if (dev_name[0] == '\0')
-        panic("all options parsed, yet tty device is empty! [is one plugged"
+        panic("All options parsed, yet tty device is empty! [is one plugged"
             " in?]\n");
 
     if (f_verbose)
