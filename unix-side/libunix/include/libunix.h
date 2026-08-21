@@ -26,6 +26,9 @@ int prefix_cmp(const char *s, const char *prefix);
 char *find_ttyusb_first(void);
 // will be the default used in bootloader
 char *find_ttyusb_last(void);
+// finds the ttyusb device specified by <path>; returns if it exists, and
+// dies internally otherwise
+void find_ttyusb(const char *path);
 
 // attempts to open the device some number of times
 // panics if is unable to do so

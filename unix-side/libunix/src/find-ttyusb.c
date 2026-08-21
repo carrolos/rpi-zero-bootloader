@@ -68,7 +68,7 @@ static char* find_ttyusb_helper(int last)
     struct dirent ** namelist = NULL;
     const int n_entries = scandir(dev_prefix, &namelist, &filter, &compar_last);
     if (n_entries == -1)
-        sys_die(scandir, "scandir failed!\n");
+        sys_die(scandir, "scandir failed!");
     else if (!(n_entries))
         // let the caller handle
         return strdup("");
@@ -102,4 +102,12 @@ char *find_ttyusb_last(void)
 char *find_ttyusb_first(void)
 {
     return find_ttyusb_helper(0);
+}
+
+void find_ttyusb(const char *path)
+{
+    struct stat statbuf;
+    const int err = stat(path, &statbuf);
+    if (err == -1)
+        sys_die(stat, "failed when calling `stat` on device <%s>", path);
 }
