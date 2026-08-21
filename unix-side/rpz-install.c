@@ -156,7 +156,7 @@ int main(int argc, char ** argv)
     // shouldn't be empty at this point
     if (pi_prog[0] == '\0')
     {
-        panic("Did not receive a pi program to bootload; exactly one is required");
+        panic("Did not receive a pi program to bootload; exactly one is required\n");
         usage();
     }
     if (dev_name[0] == '\0')
